@@ -2,16 +2,14 @@
 
 import { Button, ButtonGroup } from '@mui/material';
 import { useContext } from 'react';
-import { useAccount } from 'wagmi';
 import AddLiquidity from './AddLiquidity';
 import MintTokens from './MintTokens';
 import RemoveLiquidity from './RemoveLiquidity';
 import Swap from './Swap';
 import { TokenContext } from '../contexts/TokenContext';
-import { Chains, Tabs } from '../types';
+import { Tabs } from '../types';
 
 function MainContent() {
-  const account = useAccount();
   const { tab, setActiveTab } = useContext(TokenContext);
 
   return (
