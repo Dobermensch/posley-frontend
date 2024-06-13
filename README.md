@@ -1,9 +1,11 @@
 # Posley Swap Frontend
 
+Visit: https://posley-frontend.vercel.app
+
 A nextjs repo using wagmi for web3 requests.
 Smart contracts: https://github.com/Dobermensch/posley-oracle-amm
 
-## Getting started
+## Getting started on localhost
 
 1. Have contracts from backend repo running and deployed to Hardhat node
 2. Clone this repo
