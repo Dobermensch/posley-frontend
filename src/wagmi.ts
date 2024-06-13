@@ -1,15 +1,19 @@
+import dotenv from 'dotenv';
 import { http, createConfig } from 'wagmi';
-import { mainnet, sepolia, hardhat } from 'wagmi/chains';
+import { sepolia, hardhat } from 'wagmi/chains';
 import { injected } from 'wagmi/connectors';
 
+dotenv.config();
+
 export const config = createConfig({
-  chains: [mainnet, sepolia, hardhat],
+  chains: [sepolia, hardhat],
   connectors: [injected()],
   ssr: true,
   transports: {
-    [mainnet.id]: http(),
-    [sepolia.id]: http(),
-    [hardhat.id]: http(),
+    [sepolia.id]: http(
+      `https://sepolia.infura.io/v3/${process.env.SEPOLIA_API_KEY}`
+    ),
+    [hardhat.id]: http('http://localhost:8545'),
   },
 });
 

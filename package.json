@@ -17,6 +17,7 @@
     "@mui/material": "^5.15.19",
     "@pythnetwork/pyth-evm-js": "^1.52.0",
     "@tanstack/react-query": "5.0.5",
+    "dotenv": "^16.4.5",
     "next": "13.5.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
