@@ -2,7 +2,6 @@ import { EvmPriceServiceConnection } from '@pythnetwork/pyth-evm-js';
 import { ContractsType } from './types';
 
 export const Contracts: ContractsType = {
-  Ethereum: undefined,
   Hardhat: undefined,
   Sepolia: undefined,
 };

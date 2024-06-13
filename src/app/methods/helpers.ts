@@ -1,12 +1,12 @@
 import { MockPythConnection, PythConnection } from '../constants';
 import { Chains } from '../types';
 
-export const getConnection = (chain: Chains) => {
+export const getConnection = (_: Chains) => {
   let connection: any = MockPythConnection;
 
-  if (chain === Chains.Ethereum) {
-    connection = PythConnection;
-  }
+  // if (chain === Chains.Ethereum) {
+  //   connection = PythConnection;
+  // }
 
   return connection;
 };

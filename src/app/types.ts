@@ -1,7 +1,6 @@
 export type Address = `0x${string}`;
 
 export enum Chains {
-  Ethereum = 'Ethereum',
   Hardhat = 'Hardhat',
   Sepolia = 'Sepolia',
 }
@@ -14,7 +13,6 @@ export interface ContractsAddresses {
 }
 
 export interface ContractsType {
-  [Chains.Ethereum]: ContractsAddresses | undefined;
   [Chains.Hardhat]: ContractsAddresses | undefined;
   [Chains.Sepolia]: ContractsAddresses | undefined;
 }

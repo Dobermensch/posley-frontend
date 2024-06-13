@@ -1,14 +1,27 @@
 'use client';
 
 import Button from '@mui/material/Button';
+import { useEffect, useState } from 'react';
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import './page.css';
 import MainContent from './components/MainContent';
+import { Chains } from './types';
 
 function App() {
   const account = useAccount();
   const { connectors, connect, status, error } = useConnect();
   const { disconnect } = useDisconnect();
+  const [isSupportedChain, setIsSupportedChain] = useState<boolean>(false);
+
+  useEffect(() => {
+    const supportedChains = [Chains.Hardhat, Chains.Sepolia];
+
+    if (account.chain?.name) {
+      setIsSupportedChain(
+        supportedChains.includes(account.chain?.name as Chains)
+      );
+    }
+  }, [account.chain]);
 
   return (
     <>
@@ -53,9 +66,15 @@ function App() {
             <div>{error?.message}</div>
           </div>
         )}
+        {!isSupportedChain && (
+          <div>
+            Please switch your network to either local Hardhat or Ethereum
+            Sepolia
+          </div>
+        )}
       </div>
 
-      {account && account.chain?.name && <MainContent />}
+      {account && isSupportedChain && <MainContent />}
     </>
   );
 }

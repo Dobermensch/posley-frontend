@@ -39,14 +39,12 @@ function MainContent() {
         >
           Remove Liquidity
         </Button>
-        {account.chain?.name !== Chains.Ethereum && (
-          <Button
-            className={tab === Tabs.MINT_TOKENS ? 'active-tab' : ''}
-            onClick={() => setActiveTab(Tabs.MINT_TOKENS)}
-          >
-            Mint Tokens
-          </Button>
-        )}
+        <Button
+          className={tab === Tabs.MINT_TOKENS ? 'active-tab' : ''}
+          onClick={() => setActiveTab(Tabs.MINT_TOKENS)}
+        >
+          Mint Tokens
+        </Button>
       </ButtonGroup>
 
       {tab === Tabs.SWAP && <Swap />}
