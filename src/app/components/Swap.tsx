@@ -14,8 +14,13 @@ import { Chains, Tokens } from '../types';
 
 function Swap() {
   const { contracts } = useContext(ContractContext);
-  const { baseTokenDecimals, userBaseTokenBalance, userQuoteTokenBalance } =
-    useContext(TokenContext);
+  const {
+    baseTokenDecimals,
+    reload,
+    setReload,
+    userBaseTokenBalance,
+    userQuoteTokenBalance,
+  } = useContext(TokenContext);
 
   const account = useAccount();
   const [baseTokenAmt, setBaseTokenAmt] = useState<string>('');
@@ -98,6 +103,7 @@ function Swap() {
 
       setSuccess(`Success! Tx hash: ${hash}`);
       setDisableBtn(false);
+      setReload(!reload);
     } catch (e) {
       console.error(e);
       setDisableBtn(false);

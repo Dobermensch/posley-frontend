@@ -20,9 +20,11 @@ import { Tabs } from '../types';
 interface TokenContextType {
   baseTokenDecimals: number;
   quoteTokenDecimals: number;
+  reload: boolean;
   setActiveTab: (tab: Tabs) => void;
   setBaseTokenDecimals: (num: number) => void;
   setQuoteTokenDecimals: (num: number) => void;
+  setReload: (val: boolean) => void;
   setUserBaseTokenBalance: (balance: string) => void;
   setUserQuoteTokenBalance: (balance: string) => void;
   tab: Tabs;
@@ -33,9 +35,11 @@ interface TokenContextType {
 export const TokenContext = createContext<TokenContextType>({
   baseTokenDecimals: DefaultDecimals,
   quoteTokenDecimals: DefaultDecimals,
+  reload: false,
   setActiveTab: () => {},
   setBaseTokenDecimals: () => {},
   setQuoteTokenDecimals: () => {},
+  setReload: () => {},
   setUserBaseTokenBalance: () => {},
   setUserQuoteTokenBalance: () => {},
   tab: Tabs.ADD_LIQUIDITY,
@@ -52,6 +56,7 @@ export const TokenProvider: FC<{
     useState<number>(DefaultDecimals);
   const [quoteTokenDecimals, setQuoteTokenDecimals] =
     useState<number>(DefaultDecimals);
+  const [reload, setReload] = useState<boolean>(false);
   const [userBaseTokenBalance, setUserBaseTokenBalance] = useState<string>('');
   const [userQuoteTokenBalance, setUserQuoteTokenBalance] =
     useState<string>('');
@@ -100,14 +105,23 @@ export const TokenProvider: FC<{
     } catch (e) {
       console.error(e);
     }
-  }, [account.address, baseTokenDecimals, contracts, quoteTokenDecimals, tab]);
+  }, [
+    account.address,
+    baseTokenDecimals,
+    contracts,
+    quoteTokenDecimals,
+    reload,
+    tab,
+  ]);
 
   const contextValue = {
     baseTokenDecimals,
     quoteTokenDecimals,
+    reload,
     setActiveTab,
     setBaseTokenDecimals,
     setQuoteTokenDecimals,
+    setReload,
     setUserBaseTokenBalance,
     setUserQuoteTokenBalance,
     tab,
