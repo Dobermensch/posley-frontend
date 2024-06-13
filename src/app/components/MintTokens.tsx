@@ -6,8 +6,8 @@ import { useContext, useState } from 'react';
 import { writeContract } from 'wagmi/actions';
 import { config } from '@/wagmi';
 import Alerts from './Alerts';
-import MockGold from '../abis/MockGold.json';
-import MockUSDC from '../abis/MockUSDC.json';
+
+import { MockGoldAbi, MockUSDCAbi } from '../constants';
 import { ContractContext } from '../contexts/ContractContext';
 import { Tokens } from '../types';
 
@@ -35,7 +35,7 @@ function MintTokens() {
       }
 
       const result = await writeContract(config, {
-        abi: token === Tokens.Base ? MockGold.abi : MockUSDC.abi,
+        abi: token === Tokens.Base ? MockGoldAbi : MockUSDCAbi,
         functionName: 'mint',
         address:
           token === Tokens.Base

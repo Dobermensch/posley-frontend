@@ -8,11 +8,14 @@ import { maxUint256 } from 'viem';
 import { formatUnits, parseUnits } from 'viem/utils';
 import { config } from '@/wagmi';
 import { getConnection } from './helpers';
-import MockGold from '../abis/MockGold.json';
-import MockPyth from '../abis/MockPyth.json';
-import MockUSDC from '../abis/MockUSDC.json';
-import OracleAMM from '../abis/OracleAMM.json';
-import { MockGoldPriceID, MockUSDCPriceID } from '../constants';
+import {
+  MockGoldAbi,
+  MockGoldPriceID,
+  MockPythAbi,
+  MockUSDCAbi,
+  MockUSDCPriceID,
+  OracleAmmAbi,
+} from '../constants';
 import { Address, Chains, ContractsAddresses, PythPriceData } from '../types';
 
 export const addLiquidity = async (
@@ -70,13 +73,13 @@ export const addLiquidity = async (
     {
       contracts: [
         {
-          abi: MockGold.abi,
+          abi: MockGoldAbi,
           address: contracts.MockGoldAddress,
           functionName: 'allowance',
           args: [userAddress, contracts.OracleAmmAddress],
         },
         {
-          abi: MockUSDC.abi,
+          abi: MockUSDCAbi,
           address: contracts.MockUSDCAddress,
           functionName: 'allowance',
           args: [userAddress, contracts.OracleAmmAddress],
@@ -93,7 +96,7 @@ export const addLiquidity = async (
       parsedBaseTokenAmount > baseAllowanceResult
     ) {
       await writeContract(config, {
-        abi: MockGold.abi,
+        abi: MockGoldAbi,
         address: contracts.MockGoldAddress,
         functionName: 'approve',
         args: [contracts.OracleAmmAddress, maxUint256],
@@ -111,7 +114,7 @@ export const addLiquidity = async (
       parsedQuoteTokenAmount > quoteAllowanceResult
     ) {
       await writeContract(config, {
-        abi: MockUSDC.abi,
+        abi: MockUSDCAbi,
         address: contracts.MockUSDCAddress,
         functionName: 'approve',
         args: [contracts.OracleAmmAddress, maxUint256],
@@ -129,7 +132,7 @@ export const addLiquidity = async (
   ]);
 
   const result = await writeContract(config, {
-    abi: OracleAMM.abi,
+    abi: OracleAmmAbi,
     address: contracts.OracleAmmAddress,
     functionName: 'addLiquidity',
     args: [parsedBaseTokenAmount, parsedQuoteTokenAmount, updateData],
@@ -149,13 +152,13 @@ export const calculateQuoteTokenAmount = async (
   const result: ReadContractsReturnType = await readContracts(config, {
     contracts: [
       {
-        abi: MockPyth.abi,
+        abi: MockPythAbi,
         address: contracts.MockPythAddress,
         functionName: 'getPrice',
         args: [MockUSDCPriceID],
       },
       {
-        abi: MockPyth.abi,
+        abi: MockPythAbi,
         address: contracts.MockPythAddress,
         functionName: 'getPrice',
         args: [MockGoldPriceID],
@@ -196,7 +199,7 @@ export const getBaseTokenBalance = async (
   address: Address
 ) => {
   const result = await readContract(config, {
-    abi: MockGold.abi,
+    abi: MockGoldAbi,
     address: contracts.MockGoldAddress,
     functionName: 'balanceOf',
     args: [address],
@@ -210,7 +213,7 @@ export const getQuoteTokenBalance = async (
   address: Address
 ) => {
   const result = await readContract(config, {
-    abi: MockUSDC.abi,
+    abi: MockUSDCAbi,
     address: contracts.MockUSDCAddress,
     functionName: 'balanceOf',
     args: [address],
@@ -228,12 +231,12 @@ export const getTokensDecimals = async (contracts: ContractsAddresses) => {
   const result = <DecimalResult[]>await readContracts(config, {
     contracts: [
       {
-        abi: MockUSDC.abi,
+        abi: MockUSDCAbi,
         address: contracts.MockUSDCAddress,
         functionName: 'decimals',
       },
       {
-        abi: MockGold.abi,
+        abi: MockGoldAbi,
         address: contracts.MockGoldAddress,
         functionName: 'decimals',
       },

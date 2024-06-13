@@ -1,4 +1,4 @@
-import { MockPythConnection, PythConnection } from '../constants';
+import { MockPythConnection } from '../constants';
 import { Chains } from '../types';
 
 export const getConnection = (_: Chains) => {

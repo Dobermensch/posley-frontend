@@ -1,4 +1,9 @@
 import { EvmPriceServiceConnection } from '@pythnetwork/pyth-evm-js';
+import { Abi } from 'viem';
+import MockGold from './abis/MockGold.json';
+import MockPyth from './abis/MockPyth.json';
+import MockUSDC from './abis/MockUSDC.json';
+import OracleAMM from './abis/OracleAMM.json';
 import { ContractsType } from './types';
 
 export const Contracts: ContractsType = {
@@ -11,15 +16,19 @@ export const Contracts: ContractsType = {
   },
 };
 export const DefaultDecimals = 18;
+export const MockGoldAbi = MockGold.abi as Abi;
 export const MockGoldPriceID =
   '0x9d4294bbcd1174d6f2003ec365831e64cc31d9f6f15a2b85399db8d5000960f6';
+export const MockPythAbi = MockPyth.abi as Abi;
 export const MockPythConnection = {
   getPriceFeedsUpdateData: function (_: string[]) {
     return [];
   },
 };
+export const MockUSDCAbi = MockUSDC.abi as Abi;
 export const MockUSDCPriceID =
   '0x9d4294bbcd1174d6f2003ec365831e64cc31d9f6f15a2b85399db8d5000960f5';
+export const OracleAmmAbi = OracleAMM.abi as Abi;
 export const PythConnection = new EvmPriceServiceConnection(
   'https://hermes.pyth.network'
 );

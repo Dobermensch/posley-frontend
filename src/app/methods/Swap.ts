@@ -6,8 +6,7 @@ import {
 } from 'wagmi/actions';
 import { config } from '@/wagmi';
 import { getConnection } from './helpers';
-import MockPyth from '../abis/MockPyth.json';
-import OracleAmm from '../abis/OracleAMM.json';
+import { MockPythAbi, OracleAmmAbi } from '../constants';
 import { MockGoldPriceID, MockUSDCPriceID } from '../constants';
 import { Chains, ContractsAddresses, PythPriceData } from '../types';
 
@@ -23,13 +22,13 @@ export const calculateBuyTokenAmount = async (
   const result: ReadContractsReturnType = await readContracts(config, {
     contracts: [
       {
-        abi: MockPyth.abi,
+        abi: MockPythAbi,
         address: contracts.MockPythAddress,
         functionName: 'getPrice',
         args: [MockUSDCPriceID],
       },
       {
-        abi: MockPyth.abi,
+        abi: MockPythAbi,
         address: contracts.MockPythAddress,
         functionName: 'getPrice',
         args: [MockGoldPriceID],
@@ -99,7 +98,7 @@ export const swap = async (
   ]);
 
   const result = await writeContract(config, {
-    abi: OracleAmm.abi,
+    abi: OracleAmmAbi,
     address: contracts.OracleAmmAddress,
     functionName: 'swap',
     args: [

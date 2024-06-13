@@ -2,7 +2,7 @@ import { parseUnits } from 'viem/utils';
 import { readContract, writeContract } from 'wagmi/actions';
 import { config } from '@/wagmi';
 import { getConnection } from './helpers';
-import OracleAmm from '../abis/OracleAMM.json';
+import { OracleAmmAbi } from '../constants';
 import { MockGoldPriceID, MockUSDCPriceID } from '../constants';
 import { Address, Chains, ContractsAddresses } from '../types';
 
@@ -11,7 +11,7 @@ export const getUserBaseTokenLiquidity = async (
   address: Address
 ) => {
   const result = await readContract(config, {
-    abi: OracleAmm.abi,
+    abi: OracleAmmAbi,
     address: contracts.OracleAmmAddress,
     functionName: 'baseLiquidityProvided',
     args: [address],
@@ -51,7 +51,7 @@ export const removeLiquidity = async (
   ]);
 
   const result = await writeContract(config, {
-    abi: OracleAmm.abi,
+    abi: OracleAmmAbi,
     functionName: 'removeLiquidity',
     address: contracts.OracleAmmAddress,
     args: [parseUnits(baseTokenAmount, baseTokenDecimals), updateData],
