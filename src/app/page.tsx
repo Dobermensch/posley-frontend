@@ -12,15 +12,18 @@ function App() {
   const { connectors, connect, status, error } = useConnect();
   const { disconnect } = useDisconnect();
   const [isSupportedChain, setIsSupportedChain] = useState<boolean>(false);
+  const [isDev, setIsDev] = useState<boolean>(false);
 
   useEffect(() => {
-    const supportedChains = [Chains.Hardhat, Chains.Sepolia];
-
-    if (account.chain?.name) {
-      setIsSupportedChain(
-        supportedChains.includes(account.chain?.name as Chains)
-      );
+    const supportedChains = [Chains.Sepolia];
+    if (process?.env?.NODE_ENV === 'development') {
+      supportedChains.push(Chains.Hardhat);
+      setIsDev(true);
     }
+
+    setIsSupportedChain(
+      supportedChains.includes(account.chain?.name as Chains)
+    );
   }, [account.chain]);
 
   return (
@@ -68,8 +71,8 @@ function App() {
         )}
         {account.status === 'connected' && !isSupportedChain && (
           <div>
-            Please switch your network to either local Hardhat or Ethereum
-            Sepolia
+            {`Please switch your network to ${isDev ? 'Hardhat or ' : ''} Ethereum
+            Sepolia`}
           </div>
         )}
       </div>
