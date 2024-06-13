@@ -66,7 +66,7 @@ function App() {
             <div>{error?.message}</div>
           </div>
         )}
-        {!isSupportedChain && (
+        {account.status === 'connected' && !isSupportedChain && (
           <div>
             Please switch your network to either local Hardhat or Ethereum
             Sepolia
