@@ -42,7 +42,7 @@ export const TokenContext = createContext<TokenContextType>({
   setReload: () => {},
   setUserBaseTokenBalance: () => {},
   setUserQuoteTokenBalance: () => {},
-  tab: Tabs.ADD_LIQUIDITY,
+  tab: Tabs.MINT_TOKENS,
   userBaseTokenBalance: '0',
   userQuoteTokenBalance: '0',
 });
@@ -60,7 +60,7 @@ export const TokenProvider: FC<{
   const [userBaseTokenBalance, setUserBaseTokenBalance] = useState<string>('');
   const [userQuoteTokenBalance, setUserQuoteTokenBalance] =
     useState<string>('');
-  const [tab, setActiveTab] = useState<Tabs>(Tabs.ADD_LIQUIDITY);
+  const [tab, setActiveTab] = useState<Tabs>(Tabs.MINT_TOKENS);
 
   useEffect(() => {
     const getTokenDecimalsAsync = async () => {
