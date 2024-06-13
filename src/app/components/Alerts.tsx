@@ -16,6 +16,7 @@ const StyledAlert = styled(Alert)({
 
 const StyledCircularProgress = styled(CircularProgress)({
   alignSelf: 'center',
+  marginBottom: '10px',
 });
 
 function Alerts({ error, success, loading }: Props) {

@@ -96,11 +96,15 @@ export const addLiquidity = async (
       baseAllowanceResult.toString() === '0' ||
       parsedBaseTokenAmount > baseAllowanceResult
     ) {
-      await writeContract(config, {
+      const baseAllowanceHash = await writeContract(config, {
         abi: MockGoldAbi,
         address: contracts.MockGoldAddress,
         functionName: 'approve',
         args: [contracts.OracleAmmAddress, maxUint256],
+      });
+
+      await waitForTransactionReceipt(config, {
+        hash: baseAllowanceHash,
       });
     }
   } else {
@@ -114,11 +118,15 @@ export const addLiquidity = async (
       quoteAllowanceResult.toString() === '0' ||
       parsedQuoteTokenAmount > quoteAllowanceResult
     ) {
-      await writeContract(config, {
+      const quoteAllowanceHash = await writeContract(config, {
         abi: MockUSDCAbi,
         address: contracts.MockUSDCAddress,
         functionName: 'approve',
         args: [contracts.OracleAmmAddress, maxUint256],
+      });
+
+      await waitForTransactionReceipt(config, {
+        hash: quoteAllowanceHash,
       });
     }
   } else {
