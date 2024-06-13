@@ -62,7 +62,7 @@ function AddLiquidity() {
       setSuccess('');
       setDisableBtn(true);
 
-      const result = await addLiquidity(
+      const [hash, _receipt] = await addLiquidity(
         account.address!,
         account.chain?.name as Chains,
         contracts,
@@ -74,7 +74,7 @@ function AddLiquidity() {
         quoteTokenDecimals
       );
 
-      setSuccess(`Success! Tx hash: ${result}`);
+      setSuccess(`Success! Tx hash: ${hash}`);
       setDisableBtn(false);
     } catch (e) {
       console.error(e);
@@ -85,7 +85,7 @@ function AddLiquidity() {
 
   return (
     <div className='content-container'>
-      <Alerts error={error} success={success} />
+      <Alerts error={error} loading={disableBtn} success={success} />
 
       <TokenAmountRow
         onClickCallback={() => baseTokenAmountChanged(userBaseTokenBalance)}

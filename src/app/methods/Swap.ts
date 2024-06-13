@@ -2,6 +2,7 @@ import { formatUnits, parseUnits } from 'viem/utils';
 import {
   readContracts,
   ReadContractsReturnType,
+  waitForTransactionReceipt,
   writeContract,
 } from 'wagmi/actions';
 import { config } from '@/wagmi';
@@ -97,7 +98,7 @@ export const swap = async (
     MockUSDCPriceID,
   ]);
 
-  const result = await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: OracleAmmAbi,
     address: contracts.OracleAmmAddress,
     functionName: 'swap',
@@ -108,5 +109,9 @@ export const swap = async (
     ],
   });
 
-  return result;
+  const receipt = await waitForTransactionReceipt(config, {
+    hash,
+  });
+
+  return [hash, receipt];
 };

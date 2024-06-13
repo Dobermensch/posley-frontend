@@ -1,5 +1,9 @@
 import { parseUnits } from 'viem/utils';
-import { readContract, writeContract } from 'wagmi/actions';
+import {
+  readContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from 'wagmi/actions';
 import { config } from '@/wagmi';
 import { getConnection } from './helpers';
 import { OracleAmmAbi } from '../constants';
@@ -50,12 +54,16 @@ export const removeLiquidity = async (
     MockUSDCPriceID,
   ]);
 
-  const result = await writeContract(config, {
+  const hash = await writeContract(config, {
     abi: OracleAmmAbi,
     functionName: 'removeLiquidity',
     address: contracts.OracleAmmAddress,
     args: [parseUnits(baseTokenAmount, baseTokenDecimals), updateData],
   });
 
-  return result;
+  const receipt = await waitForTransactionReceipt(config, {
+    hash,
+  });
+
+  return [hash, receipt];
 };

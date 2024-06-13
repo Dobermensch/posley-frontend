@@ -86,7 +86,7 @@ function Swap() {
       setSuccess('');
       setError('');
 
-      const result = await swap(
+      const [hash, _receipt] = await swap(
         contracts,
         account.chain?.name as Chains,
         isSellBase,
@@ -96,7 +96,7 @@ function Swap() {
         baseTokenDecimals
       );
 
-      setSuccess(`Success! Tx hash: ${result}`);
+      setSuccess(`Success! Tx hash: ${hash}`);
       setDisableBtn(false);
     } catch (e) {
       console.error(e);
@@ -107,7 +107,7 @@ function Swap() {
 
   return (
     <div className='content-container'>
-      <Alerts error={error} success={success} />
+      <Alerts error={error} loading={disableBtn} success={success} />
 
       <TokenAmountRow
         onClickCallback={() =>

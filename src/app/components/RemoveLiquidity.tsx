@@ -64,7 +64,7 @@ function RemoveLiquidity() {
       setSuccess('');
       setDisableBtn(true);
 
-      const result = await removeLiquidity(
+      const [hash, _receipt] = await removeLiquidity(
         contracts,
         account.chain?.name as Chains,
         userBaseLiquidity,
@@ -72,7 +72,7 @@ function RemoveLiquidity() {
         baseTokenDecimals
       );
 
-      setSuccess(`Success! Tx hash: ${result}`);
+      setSuccess(`Success! Tx hash: ${hash}`);
       setDisableBtn(false);
     } catch (e) {
       console.error(e);
@@ -83,7 +83,7 @@ function RemoveLiquidity() {
 
   return (
     <div className='content-container'>
-      <Alerts error={error} success={success} />
+      <Alerts error={error} loading={disableBtn} success={success} />
 
       <TokenAmountRow
         onClickCallback={() => baseTokenAmountChanged(userBaseLiquidity)}

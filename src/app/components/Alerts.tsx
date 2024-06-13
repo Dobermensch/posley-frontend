@@ -1,11 +1,12 @@
 'use client';
 
-import { Alert, styled } from '@mui/material';
+import { Alert, CircularProgress, styled } from '@mui/material';
 import { memo } from 'react';
 
 type Props = {
   error: string;
   success: string;
+  loading: boolean;
 };
 
 const StyledAlert = styled(Alert)({
@@ -13,20 +14,26 @@ const StyledAlert = styled(Alert)({
   maxWidth: '500px',
 });
 
-function Alerts({ error, success }: Props) {
+const StyledCircularProgress = styled(CircularProgress)({
+  alignSelf: 'center',
+});
+
+function Alerts({ error, success, loading }: Props) {
   return (
     <>
       {error && (
-        <StyledAlert className='alert' variant='filled' severity='error'>
+        <StyledAlert variant='filled' severity='error'>
           {error}
         </StyledAlert>
       )}
 
       {success && (
-        <StyledAlert className='alert' variant='filled' severity='success'>
+        <StyledAlert variant='filled' severity='success'>
           {success}
         </StyledAlert>
       )}
+
+      {loading && <StyledCircularProgress />}
     </>
   );
 }

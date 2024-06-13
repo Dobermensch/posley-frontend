@@ -3,7 +3,7 @@
 import { styled } from '@mui/material';
 import Button from '@mui/material/Button';
 import { useContext, useState } from 'react';
-import { writeContract } from 'wagmi/actions';
+import { waitForTransactionReceipt, writeContract } from 'wagmi/actions';
 import { config } from '@/wagmi';
 import Alerts from './Alerts';
 
@@ -34,7 +34,7 @@ function MintTokens() {
         setDisableQuoteToken(true);
       }
 
-      const result = await writeContract(config, {
+      const hash = await writeContract(config, {
         abi: token === Tokens.Base ? MockGoldAbi : MockUSDCAbi,
         functionName: 'mint',
         address:
@@ -43,7 +43,11 @@ function MintTokens() {
             : contracts.MockUSDCAddress,
       });
 
-      setSuccess(`Success! Tx hash: ${result}`);
+      const _receipt = await waitForTransactionReceipt(config, {
+        hash,
+      });
+
+      setSuccess(`Success! Tx hash: ${hash}`);
       if (token === Tokens.Base) {
         setDisableBaseToken(false);
       } else {
@@ -62,7 +66,11 @@ function MintTokens() {
 
   return (
     <div className='content-container'>
-      <Alerts error={error} success={success} />
+      <Alerts
+        error={error}
+        loading={disableBaseToken || disableQuoteToken}
+        success={success}
+      />
 
       <StyledButton
         disabled={disableBaseToken}

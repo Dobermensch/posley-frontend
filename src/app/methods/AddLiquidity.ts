@@ -2,6 +2,7 @@ import {
   readContract,
   readContracts,
   writeContract,
+  waitForTransactionReceipt,
   type ReadContractsReturnType,
 } from '@wagmi/core';
 import { maxUint256 } from 'viem';
@@ -131,14 +132,18 @@ export const addLiquidity = async (
     MockUSDCPriceID,
   ]);
 
-  const result = await writeContract(config, {
+  const txHash = await writeContract(config, {
     abi: OracleAmmAbi,
     address: contracts.OracleAmmAddress,
     functionName: 'addLiquidity',
     args: [parsedBaseTokenAmount, parsedQuoteTokenAmount, updateData],
   });
 
-  return result;
+  const receipt = await waitForTransactionReceipt(config, {
+    hash: txHash,
+  });
+
+  return [txHash, receipt];
 };
 
 export const calculateQuoteTokenAmount = async (
