@@ -66,7 +66,7 @@ export const TokenProvider: FC<{
     };
 
     try {
-      if (Object.keys(contracts)?.length) getTokenDecimalsAsync();
+      if (contracts && Object.keys(contracts)?.length) getTokenDecimalsAsync();
     } catch (e) {
       console.error(e);
     }
@@ -96,7 +96,7 @@ export const TokenProvider: FC<{
     };
 
     try {
-      if (Object.keys(contracts)?.length) getUserTokenBalances();
+      if (contracts && Object.keys(contracts)?.length) getUserTokenBalances();
     } catch (e) {
       console.error(e);
     }
